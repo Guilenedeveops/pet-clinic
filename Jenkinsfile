@@ -18,6 +18,7 @@ pipeline{
         ARTIFACTTARGETPATH = 'release${BUILD_ID}.jar'
         ARTIFACTORY_URL = 'http://54.81.217.12:8082/artifactory/'
         REPO = 'repo-key'
+        
     }
     stages{
         stage('Git Checkout'){
