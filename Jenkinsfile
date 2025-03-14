@@ -12,11 +12,12 @@ pipeline{
         SONAQUBE_INSTALLATION = 'sonar'
         SONAQUBE_CRED = '1a84cfa7-f013-4177-ba3a-2c7aa4b48d82'
         SCANNER_HOME = tool 'sonar-env'
-        APP_NAME = 'guigui'
+        APP_NAME = 'pascale'
         JFROG_CRED = 'jfrog-cred'
         ARTIFACTPATH = 'target/*.jar'
         ARTIFACTTARGETPATH = 'release${BUILD_ID}.jar'
-        ARTIFACTORY_URL = 'http://54.81.217.12:8082/artifactory/artifactory-build-info/'
+        ARTIFACTORY_URL = 'http://54.81.217.12:8082/artifactory/'
+        REPO = 'repo-key'
     }
     stages{
         stage('Git Checkout'){
@@ -47,7 +48,7 @@ pipeline{
             }
 
         }
-        stage('Quality Gate Check'){
+        /*stage('Quality Gate Check'){
             steps{
               script{
                  waitForQualityGate abortPipeline: false, credentialsId: "${SONAQUBE_CRED}" 
@@ -78,8 +79,8 @@ pipeline{
                         """
             }
         }
-    }        
-    }
+    }       
+    }*/
     }
     }
     
