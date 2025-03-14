@@ -89,10 +89,16 @@ pipeline{
             }
     
         }
+        stage('dockerImageBuild'){
+        steps{
+            sh 'docker build -t repo-new .'
+            sh 'docker build -t imageversion .'
+        }
+      }
         stage('dockerTagImage'){
         steps{
             sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest'
-            sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest:v1$BUILD_NUMBER'
+            sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest:v1.$BUILD_NUMBER'
         }
     }
     }
