@@ -115,6 +115,11 @@ pipeline{
                 sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:v1.$BUILD_NUMBER'
         }
     }
+    stage('dockerPushImage'){
+        steps{
+            sh 'docker push 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest'
+            sh 'docker push 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:v1.$BUILD_NUMBER'
+        }
     }
     }
     
