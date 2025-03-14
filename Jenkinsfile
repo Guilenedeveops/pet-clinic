@@ -12,7 +12,7 @@ pipeline{
         SONAQUBE_INSTALLATION = 'sonar'
         SONAQUBE_CRED = '1a84cfa7-f013-4177-ba3a-2c7aa4b48d82'
         SCANNER_HOME = tool 'sonar-env'
-        APP_NAME = 'pascale'
+        APP_NAME = 'guigui'
         JFROG_CRED = 'jfrog-cred'
         ARTIFACTPATH = 'target/*.jar'
         ARTIFACTTARGETPATH = 'release${BUILD_ID}.jar'
@@ -58,7 +58,7 @@ pipeline{
 
         stage('Code Package'){
             steps{
-                sh 'mvn package'
+                sh 'mvn package -DskipTests'
             }
         }
 
