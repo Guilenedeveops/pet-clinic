@@ -13,6 +13,10 @@ pipeline{
         SONAQUBE_CRED = '1a84cfa7-f013-4177-ba3a-2c7aa4b48d82'
         SCANNER_HOME = tool 'sonar-env'
         APP_NAME = 'guigui'
+        JFROG_CRED = 'jfrog-cred'
+        ARTIFACTPATH = 'target/*.jar'
+        ARTIFACTTARGETPATH = 'release${BUILD_ID}.jar'
+        ARTIFACTORY_URL = 'http://54.81.217.12:8082/artifactory/artifactory-build-info/'
     }
     stages{
         stage('Git Checkout'){
@@ -50,21 +54,32 @@ pipeline{
               }
             }
         }
+
         stage('Code Package'){
             steps{
                 sh 'mvn package'
             }
         }
+
         stage('Upload Jar to Jfrog'){
             steps{
                 withCredentials([usernamePassword(credentialsId: "${JFROG_CRED}", \
-                 usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
+                 usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORYPASSWORD')]) {
                     script {
                         // Define the artifact path and target location
-                        //def artifactPath = 'targe
+                        //def artifactPath = 'target/*.jar'
+                        //def targetPath = "release${BUILD_ID}.jar"
+
+                        // Upload the artifact using curl
+                        sh """
+                            curl -u ${ARTIFACTORY_USER}:${ARTIFACTORY_PASSWORD} \
+                                 -T ${ARTIFACTPATH} \
+                                 ${ARTIFACTORY_URL}/${REPO}/${ARTIFACTTARGETPATH}
+                        """
+            }
+        }
+    }        
     }
     }
-}
-}
     }
-    }
+    
