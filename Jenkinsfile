@@ -8,6 +8,7 @@ pipeline{
         AWS_REGION = 'us-east-1'
         GIT_CRED = 'Github-creds'
         PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic-java-code.git'
+        BRANCH_NAME = 'main'
     }
     stage('Git Checkout'){
             steps{
