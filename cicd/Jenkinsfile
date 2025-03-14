@@ -90,8 +90,17 @@ pipeline{
             }
     
         }
+         stage('Construire Docker') {
+            steps {
+                script {
+                    // Accéder à un sous-dossier spécifique
+                    dir('~/Documents/DEVOPS/TRAINING/jenkins/pet/pet-clinic-java-code/Dockerfile') {
+                        // Commandes exécutées dans ce répertoire
+                       }
+                }
         stage('dockerImageBuild'){
             steps{
+                
                 sh 'docker build -t repo-new .'
                 sh 'docker build -t imageversion .'
                 
