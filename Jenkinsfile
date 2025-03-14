@@ -17,5 +17,10 @@ pipeline{
                 url: "${PROJECT_URL}"
             }
         }
+        stage('Trivy Scan'){
+            steps{
+                 sh "trivy fs --format table -o maven_dependency.html ."
+            }
+        }
     }
 }
