@@ -79,8 +79,23 @@ pipeline{
                         """
             }
         }
-    }       
+    }
+         
+    }
+             
+        stage('dockerLogin'){
+            steps{
+            sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867344455679.dkr.ecr.us-east-1.amazonaws.com'
+            }
+    
+        }
+        stage('dockerTagImage'){
+        steps{
+            sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest'
+            sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest:v1$BUILD_NUMBER'
+        }
     }
     }
     }
+    
     
