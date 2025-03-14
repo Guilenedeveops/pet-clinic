@@ -55,5 +55,16 @@ pipeline{
                 sh 'mvn package'
             }
         }
+        stage('Upload Jar to Jfrog'){
+            steps{
+                withCredentials([usernamePassword(credentialsId: "${JFROG_CRED}", \
+                 usernameVariable: 'ARTIFACTORY_USER', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
+                    script {
+                        // Define the artifact path and target location
+                        //def artifactPath = 'targe
+    }
     }
 }
+}
+    }
+    }
