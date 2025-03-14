@@ -41,6 +41,19 @@ pipeline{
                    -Dsonar.java.binaries=. '''
 }
             }
+
+        }
+        stage('Quality Gate Check'){
+            steps{
+              script{
+                 waitForQualityGate abortPipeline: false, credentialsId: "${SONAQUBE_CRED}" 
+              }
+            }
+        }
+        stage('Code Package'){
+            steps{
+                sh 'mvn package'
+            }
         }
     }
 }
