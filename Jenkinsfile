@@ -11,7 +11,7 @@ pipeline{
         BRANCH_NAME = 'main'
         SONAQUBE_INSTALLATION = 'sonar'
         SONAQUBE_CRED = 'sonar-cred'
-        SCANNER_HOME = tool '/opt/sonar-scanner'
+        SCANNER_HOME = tool 'sonar-env'
         APP_NAME = 'guigui'
     }
     stages{
