@@ -98,6 +98,8 @@ pipeline{
                         // Commandes exécutées dans ce répertoire
                        }
                 }
+            }
+            }
         stage('dockerImageBuild'){
             steps{
                 
