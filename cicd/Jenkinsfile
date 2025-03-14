@@ -1,47 +1,42 @@
 pipeline{
     agent any
-    tools {
+    tools{
         maven 'M2_HOME'
         jdk 'JAVA_HOME'
-       
     }
     environment{
         AWS_REGION = 'us-east-1'
-        IMAGE_ECR_REPO = '867344455679.dkr.ecr.us-east-1.amazonaws.com/jenkins-ci-not-to-be-delete'
-        ECR_REPO = '867344455679.dkr.ecr.us-east-1.amazonaws.com'
+        GIT_CRED = 'Github-creds'
+        PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic-java-code.git'
         BRANCH_NAME = 'main'
-        GIT_CRED = 'Github-credential'
-        GIT_PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic-java-code.git'
-        SONAQUBE_CRED = 'sonarqube-cred'
         SONAQUBE_INSTALLATION = 'sonar'
-        APP_NAME = 'pet-clinic-java'
+        SONAQUBE_CRED = '1a84cfa7-f013-4177-ba3a-2c7aa4b48d82'
         SCANNER_HOME = tool 'sonar-env'
-        JFROG_CRED = 'jfrof-cred'
+        APP_NAME = 'guigui'
+        JFROG_CRED = 'jfrog-cred'
         ARTIFACTPATH = 'target/*.jar'
-        ARTIFACTORY_URL = 'http://54.88.43.45:8082/artifactory/devops/'
-        REPO = d'evops'
-        ARTIFACTTARGETPATH = 'release_$BUILD_ID.jar'
-
+        ARTIFACTTARGETPATH = 'release${BUILD_ID}.jar'
+        ARTIFACTORY_URL = 'http://54.81.217.12:8082/artifactory/'
+        REPO = 'repo-key'
+        
     }
     stages{
         stage('Git Checkout'){
             steps{
                 git branch: "${BRANCH_NAME}", credentialsId: "${GIT_CRED}", \
-                url: "${GIT_PROJECT_URL}"
+                url: "${PROJECT_URL}"
             }
         }
-       
-        stage('codescan'){
+        stage('Trivy Scan'){
             steps{
-                sh "trivy fs --format table -o maven_dependency.html ."
-                               
+                 sh "trivy fs --format table -o maven_dependency.html ."
             }
         }
         stage('Unit Test'){
             steps{
                 sh 'mvn clean'
-                sh 'mvn compile -DskipTests '
-            
+                sh 'mvn compile -DskipTest'
+                
             }
         }
         stage('Sonarqube Scan'){
@@ -52,20 +47,22 @@ pipeline{
                    -Dsonar.java.binaries=. '''
 }
             }
+
         }
-        stage('Quality Gate Check'){
+        /*stage('Quality Gate Check'){
             steps{
               script{
                  waitForQualityGate abortPipeline: false, credentialsId: "${SONAQUBE_CRED}" 
               }
             }
-        }
-         stage('Code Package'){
+        }*/
+
+        stage('Code Package'){
             steps{
                 sh 'mvn package -DskipTests'
             }
         }
-      
+
         stage('Upload Jar to Jfrog'){
             steps{
                 withCredentials([usernamePassword(credentialsId: "${JFROG_CRED}", \
@@ -73,7 +70,7 @@ pipeline{
                     script {
                         // Define the artifact path and target location
                         //def artifactPath = 'target/*.jar'
-                        //def targetPath = "release_${BUILD_ID}.jar"
+                        //def targetPath = "release${BUILD_ID}.jar"
 
                         // Upload the artifact using curl
                         sh """
@@ -84,37 +81,30 @@ pipeline{
             }
         }
     }
-
-}
-
-         /*
+         
+    }
+             
         stage('dockerLogin'){
             steps{
-                sh "aws ecr get-login-password --region $AWS_REGION |\
-                 docker login --username AWS\
-                 --password-stdin $ECR_REPO"
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867344455679.dkr.ecr.us-east-1.amazonaws.com'
             }
+    
         }
         stage('dockerImageBuild'){
             steps{
-                sh 'docker build -t jenkins-ci-not-to-be-delete .'
-                sh 'docker build -t imageversion .'
-            }
-        }
-        stage('dockerImageTag'){
-            steps{
-                sh "docker tag jenkins-ci-not-to-be-delete:latest $IMAGE_ECR_REPO:latest"
-                sh "docker tag jenkins-ci-not-to-be-delete:latest $IMAGE_ECR_REPO:v1.$BUILD_NUMBER"
-            }
-        }
-       
+               // sh 'docker build -t repo-new .'
+                //sh 'docker build -t imageversion .'
+                sh 'pwd && ls -l'
 
-        stage('pushImage'){
-            steps{
-                sh "docker push $IMAGE_ECR_REPO:latest"
-                sh "docker push $IMAGE_ECR_REPO:v1.$BUILD_NUMBER"
-            }
         }
-    */
+      }
+        stage('dockerTagImage'){
+            steps{
+                sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest'
+                sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest:v1.$BUILD_NUMBER'
+        }
     }
-}
+    }
+    }
+    
+    
