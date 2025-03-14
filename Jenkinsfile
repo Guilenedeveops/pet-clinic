@@ -10,10 +10,12 @@ pipeline{
         PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic-java-code.git'
         BRANCH_NAME = 'main'
     }
-    stage('Git Checkout'){
+    stages{
+        stage('Git Checkout'){
             steps{
                 git branch: "${BRANCH_NAME}", credentialsId: "${GIT_CRED}", \
                 url: "${PROJECT_URL}"
             }
         }
+    }
 }
