@@ -48,7 +48,7 @@ pipeline{
             }
 
         }
-        /*stage('Quality Gate Check'){
+        stage('Quality Gate Check'){
             steps{
               script{
                  waitForQualityGate abortPipeline: false, credentialsId: "${SONAQUBE_CRED}" 
@@ -56,7 +56,7 @@ pipeline{
             }
         }
 
-        stage('Code Package'){
+        /*stage('Code Package'){
             steps{
                 sh 'mvn package'
             }
