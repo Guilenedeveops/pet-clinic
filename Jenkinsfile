@@ -22,5 +22,12 @@ pipeline{
                  sh "trivy fs --format table -o maven_dependency.html ."
             }
         }
+        stage('Unit Test'){
+            steps{
+                sh 'mvn clean'
+                sh 'mvn compile -DskipTest'
+                
+            }
+        }
     }
 }
