@@ -86,20 +86,20 @@ pipeline{
              
         stage('dockerLogin'){
             steps{
-            sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867344455679.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 867344455679.dkr.ecr.us-east-1.amazonaws.com'
             }
     
         }
         stage('dockerImageBuild'){
-        steps{
-            sh 'docker build -t repo-new .'
-            sh 'docker build -t imageversion .'
+            steps{
+                sh 'docker build -t repo-new .'
+                sh 'docker build -t imageversion .'
         }
       }
         stage('dockerTagImage'){
-        steps{
-            sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest'
-            sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest:v1.$BUILD_NUMBER'
+            steps{
+                sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest'
+                sh 'docker tag repo-new:latest 867344455679.dkr.ecr.us-east-1.amazonaws.com/repo-new:latest:v1.$BUILD_NUMBER'
         }
     }
     }
