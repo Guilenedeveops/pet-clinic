@@ -7,7 +7,7 @@ pipeline{
     environment{
         AWS_REGION = 'us-east-1'
         GIT_CRED = 'Github-creds'
-        PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic-java-code.git'
+        PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic.git'
         BRANCH_NAME = 'main'
         SONAQUBE_INSTALLATION = 'sonar'
         SONAQUBE_CRED = '1a84cfa7-f013-4177-ba3a-2c7aa4b48d82'
