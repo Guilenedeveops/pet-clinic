@@ -10,7 +10,7 @@ pipeline{
         PROJECT_URL = 'https://github.com/Guilenedeveops/pet-clinic-java-code.git'
         BRANCH_NAME = 'main'
         SONAQUBE_INSTALLATION = 'sonar'
-        SONAQUBE_CRED = 'sonarqube-cred'
+        SONAQUBE_CRED = '1a84cfa7-f013-4177-ba3a-2c7aa4b48d82'
         SCANNER_HOME = tool 'sonar-env'
         APP_NAME = 'guigui'
     }
