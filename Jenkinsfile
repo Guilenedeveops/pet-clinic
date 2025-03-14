@@ -92,8 +92,10 @@ pipeline{
         }
         stage('dockerImageBuild'){
             steps{
-                sh 'docker build -t repo-new .'
-                sh 'docker build -t imageversion .'
+               // sh 'docker build -t repo-new .'
+                //sh 'docker build -t imageversion .'
+                sh 'pwd && ls -l'
+
         }
       }
         stage('dockerTagImage'){
